@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wajahatkarim3.todo.mvvm.R
 import com.wajahatkarim3.todo.mvvm.databinding.ItemTaskLayoutBinding
 import com.wajahatkarim3.todo.mvvm.model.TaskModel
+import com.wajahatkarim3.todo.mvvm.util.showStrikeThrough
 
 class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
 
     private val tasksList = ArrayList<TaskModel>()
     var context: Context
-    var onCompleted: (taskModel: TaskModel) -> Unit = { }
+    var onCompleted: (taskModel: TaskModel, position: Int) -> Unit = { taskModel, position ->  }
 
-    constructor(context: Context, tasks: List<TaskModel>, onCompleted: (taskModel: TaskModel) -> Unit = { }) {
+    constructor(context: Context, tasks: List<TaskModel>, onCompleted: (taskModel: TaskModel, position: Int) -> Unit) {
         this.context = context
         this.onCompleted = onCompleted
         tasksList.clear()
@@ -44,6 +45,11 @@ class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
         notifyDataSetChanged()
     }
 
+    fun updateItem(taskModel: TaskModel, position: Int) {
+        tasksList[position] = taskModel
+        notifyItemChanged(position)
+    }
+
     inner class TaskViewHolder(val bi: ItemTaskLayoutBinding) : RecyclerView.ViewHolder(bi.root) {
 
         fun bind(taskModel: TaskModel, position: Int) {
@@ -52,7 +58,9 @@ class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
                 if (taskModel.completed) {
                     lottieDone.visibility = View.GONE
                     btnDone.visibility = View.VISIBLE
+                    btnDone.imageTintList = ColorStateList.valueOf(context.resources.getColor(R.color.white, null))
                     btnDone.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.colorCheckBackgroundDone, null))
+                    txtTaskTitle.showStrikeThrough(true)
                 }
                 else {
                     lottieDone.visibility = View.GONE
@@ -67,8 +75,9 @@ class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
                             // Animation Completed
                             lottieDone.visibility = View.GONE
                             btnDone.visibility = View.VISIBLE
+                            btnDone.imageTintList = ColorStateList.valueOf(context.resources.getColor(R.color.white))
                             btnDone.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.colorCheckBackgroundDone, null))
-                            onCompleted.invoke(taskModel)
+                            onCompleted.invoke(taskModel, position)
                         }
                     }
                     lottieDone.playAnimation()

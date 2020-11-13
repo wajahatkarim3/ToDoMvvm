@@ -50,8 +50,8 @@ class TasksListFragment : Fragment() {
 
         // RecyclerView
         context?.let {
-            tasksListAdapter = TasksListAdapter(it, emptyList(), onCompleted = { taskModel ->
-
+            tasksListAdapter = TasksListAdapter(it, emptyList(), onCompleted = { taskModel, position ->
+                viewModel.markAsCompleted(taskModel)
             })
             bi.recyclerTasks.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
             bi.recyclerTasks.adapter = tasksListAdapter

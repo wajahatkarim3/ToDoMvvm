@@ -10,8 +10,7 @@ class TasksListViewModel : ViewModel() {
 
     private val localRepository = LocalRepository
 
-    private val _tasksListLD = MutableLiveData<List<TaskModel>>(localRepository.tasksList)
-    val tasksListLiveData: LiveData<List<TaskModel>> = _tasksListLD
+    val tasksListLiveData: LiveData<List<TaskModel>> = localRepository.tasksList
 
     private val _uiState = MutableLiveData<TasksListUI>()
     val uiState: LiveData<TasksListUI> = _uiState
@@ -22,19 +21,17 @@ class TasksListViewModel : ViewModel() {
 
     fun addTask(title: String) {
         localRepository.addTask(title)
-        _tasksListLD.value = localRepository.tasksList
         updateUi()
     }
 
     fun markAsCompleted(taskModel: TaskModel) {
         var completedTask = taskModel.copy(completed = true)
         localRepository.updateTask(completedTask.id, completedTask)
-        _tasksListLD.value = localRepository.tasksList
         updateUi()
     }
 
     fun updateUi() {
-        if (_tasksListLD.value?.size == 0) {
+        if (tasksListLiveData.value == null || tasksListLiveData.value?.size == 0) {
             _uiState.value = Empty
         } else {
             _uiState.value = TasksList
