@@ -18,10 +18,12 @@ class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
     private val tasksList = ArrayList<TaskModel>()
     var context: Context
     var onCompleted: (taskModel: TaskModel, position: Int) -> Unit = { taskModel, position ->  }
+    var onClick: (taskModel: TaskModel) -> Unit = { taskModel ->  }
 
-    constructor(context: Context, tasks: List<TaskModel>, onCompleted: (taskModel: TaskModel, position: Int) -> Unit) {
+    constructor(context: Context, tasks: List<TaskModel>, onCompleted: (taskModel: TaskModel, position: Int) -> Unit, onClick: (taskModel: TaskModel) -> Unit) {
         this.context = context
         this.onCompleted = onCompleted
+        this.onClick = onClick
         tasksList.clear()
         tasksList.addAll(tasks)
     }
@@ -66,6 +68,10 @@ class TasksListAdapter : RecyclerView.Adapter<TasksListAdapter.TaskViewHolder> {
                     lottieDone.visibility = View.GONE
                     btnDone.visibility = View.VISIBLE
                     btnDone.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(R.color.colorCheckBackground, null))
+                }
+
+                txtTaskTitle.setOnClickListener {
+                    onClick.invoke(taskModel)
                 }
 
                 btnDone.setOnClickListener {

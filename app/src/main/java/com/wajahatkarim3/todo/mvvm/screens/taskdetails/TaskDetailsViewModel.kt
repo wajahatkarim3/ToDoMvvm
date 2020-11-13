@@ -1,7 +1,8 @@
 package com.wajahatkarim3.todo.mvvm.screens.taskdetails
 
 import androidx.lifecycle.ViewModel
+import com.wajahatkarim3.todo.mvvm.model.TaskModel
 
 class TaskDetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+    lateinit var taskModel: TaskModel
 }

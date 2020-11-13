@@ -50,9 +50,14 @@ class TasksListFragment : Fragment() {
 
         // RecyclerView
         context?.let {
-            tasksListAdapter = TasksListAdapter(it, emptyList(), onCompleted = { taskModel, position ->
-                viewModel.markAsCompleted(taskModel)
-            })
+            tasksListAdapter = TasksListAdapter(it, emptyList(),
+                onCompleted = { taskModel, position ->
+                    viewModel.markAsCompleted(taskModel)
+                },
+                onClick = {taskModel ->
+                    var directions = TasksListFragmentDirections.actionTasksListFragmentToTaskDetailsFragment(taskModel)
+                    findNavController().navigate(directions)
+                })
             bi.recyclerTasks.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
             bi.recyclerTasks.adapter = tasksListAdapter
             tasksListAdapter.notifyDataSetChanged()

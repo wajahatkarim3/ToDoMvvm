@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/tasksListFragment"
         android:name="com.wajahatkarim3.todo.mvvm.screens.taskslist.TasksListFragment"
-        android:label="tasks_list_fragment"
+        android:label="Tasks List"
         tools:layout="@layout/tasks_list_fragment" >
         <action
             android:id="@+id/action_tasksListFragment_to_taskDetailsFragment"
@@ -18,7 +18,11 @@
     <fragment
         android:id="@+id/taskDetailsFragment"
         android:name="com.wajahatkarim3.todo.mvvm.screens.taskdetails.TaskDetailsFragment"
-        android:label="task_details_fragment"
-        tools:layout="@layout/task_details_fragment" />
+        android:label="Task Details"
+        tools:layout="@layout/task_details_fragment" >
+        <argument
+            android:name="taskModel"
+            app:argType="com.wajahatkarim3.todo.mvvm.model.TaskModel" />
+    </fragment>
 
 </navigation>
