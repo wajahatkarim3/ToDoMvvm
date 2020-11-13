@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorCheckIcon">#4E4E4E</color>
+    <color name="colorCheckBackground">#D9D9D9</color>
+    <color name="colorCheckBackgroundDone">@color/purple_200</color>
+</resources>
